@@ -1,5 +1,5 @@
 version: v1.0
-name: Testing Auto Promoting
+name: Reusing Docker images
 agent:
   machine:
     type: e1-standard-2
@@ -17,7 +17,7 @@ blocks:
   - name: Create Docker image
     task:
       jobs:
-        - name: Store Docker image in cache
+        - name: Store Docker image in Registry
           commands:
             - checkout
             - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
@@ -33,7 +33,7 @@ blocks:
   - name: Test Docker image
     task:
       jobs:
-        - name: restore Docker image from cache
+        - name: restore Docker image from Registry
           commands:
             - echo $SEMAPHORE_WORKFLOW_ID
             - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
